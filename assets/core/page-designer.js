@@ -11,6 +11,7 @@ pde.templateWidgetPageDataSource = {
 };
 pde.isDataSourceChanged = ko.observable(false);
 pde.dataSourceArray = ko.observableArray([]);
+pde.dsMapyo = ko.observableArray([]);
 pde.dsMapping = ko.mapping.fromJS(pde.dsMappingConfig);
 pde.configWidgetPage = ko.mapping.fromJS(viewModel.templateModels.WidgetPage);
 pde.configWidgetPageDataSources = ko.observableArray([]);
@@ -434,11 +435,13 @@ pde.openWidgetSetting = function() {
             }
         }
 
+        pde.dsMapyo(dsMap);
+
         var iWindow = $("#formSetting")[0].contentWindow;
 
         $("#formSetting").off("load").on("load", function () {
             var widgetData = hasConfigWidget ? configWidgetPage.config : null;
-            iWindow.window.SetFormData(dsMap, widgetData);
+            iWindow.window.SetFormData(pde.dsMapyo(), widgetData);
 
             var shouldHeight = iWindow.document.getElementById("page-container").scrollHeight;
             iWindow.document.getElementById("widgetSettingForm").style.height = parseInt(shouldHeight) + "px";
